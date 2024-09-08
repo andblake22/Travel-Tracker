@@ -6,8 +6,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/world-map" element={<WorldMap />} />
-        <Route path="/us-map" element={<USMap />} />
+        <Route path="/world" element={<WorldMap />} />
+        <Route path="/us" element={<USMap />} />
         <Route path="/" element={<WorldMap />} />
       </Routes>
     </Router>

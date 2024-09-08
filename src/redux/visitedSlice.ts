@@ -1,4 +1,3 @@
-// redux/visitedSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 
 interface VisitedState {
