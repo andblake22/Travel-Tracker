@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCountry, removeCountry } from '../redux/visitedSlice'; // Redux actions
 import { ReactComponent as WorldMapSVG } from '../assets/world.svg'; // Import SVG as React component
@@ -7,7 +7,14 @@ const WorldMap: React.FC = () => {
   const visitedCountries = useSelector((state: any) => state.visited.countries); // Redux state for visited countries
   const dispatch = useDispatch();
   const svgRef = useRef<SVGSVGElement>(null); // Reference to the SVG
+  const [editMode, setEditMode] = useState(false); // Edit mode state
 
+  // Toggle edit mode
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };
+
+  // Add or remove a country based on its visited state
   const toggleCountryVisited = (countryId: string) => {
     if (visitedCountries.includes(countryId)) {
       dispatch(removeCountry(countryId)); // Remove from visited
@@ -21,19 +28,19 @@ const WorldMap: React.FC = () => {
     if (svgElement) {
       const paths = svgElement.querySelectorAll('path'); // Select all path elements
 
-      // Function to handle click
       const handleClick = (event: any) => {
-        const countryId = event.target.id;
-        toggleCountryVisited(countryId);
+        if (editMode) { // Only allow clicks when edit mode is enabled
+          const countryId = event.target.id;
+          toggleCountryVisited(countryId);
+        }
       };
 
-      // Update the fill color based on whether the country is visited or not
       paths.forEach((path) => {
         const countryId = path.id;
         if (visitedCountries.includes(countryId)) {
-          path.setAttribute('fill', 'green'); // Visited color
+          path.setAttribute('fill', 'green'); // Mark as visited
         } else {
-          path.setAttribute('fill', 'gray'); // Not visited color
+          path.setAttribute('fill', 'gray'); // Mark as not visited
         }
 
         // Attach event listeners
@@ -47,13 +54,19 @@ const WorldMap: React.FC = () => {
         });
       };
     }
-  }, [visitedCountries]); // Effect runs whenever visitedCountries changes
+  }, [visitedCountries, editMode]); // Effect runs when visitedCountries or editMode changes
 
   return (
     <div>
       <h1>World Map</h1>
+      
+      {/* Toggle edit mode */}
+      <button onClick={toggleEditMode}>
+        {editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'}
+      </button>
+
+      {/* Render the SVG */}
       <div>
-        {/* Bind the SVG reference for direct manipulation */}
         <WorldMapSVG ref={svgRef} />
       </div>
     </div>
@@ -61,4 +74,3 @@ const WorldMap: React.FC = () => {
 };
 
 export default WorldMap;
-
