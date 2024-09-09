@@ -6,8 +6,8 @@ interface VisitedState {
 }
 
 const initialState: VisitedState = {
-  countries: [], // Array for visited country IDs
-  states: [],    // Array for visited US state IDs
+  countries: [],
+  states: []
 };
 
 const visitedSlice = createSlice({
@@ -17,17 +17,17 @@ const visitedSlice = createSlice({
     addCountry: (state, action) => {
       state.countries.push(action.payload);
     },
-    removeCountry: (state, action) => {
-      state.countries = state.countries.filter(id => id !== action.payload);
-    },
     addState: (state, action) => {
       state.states.push(action.payload);
     },
-    removeState: (state, action) => {
-      state.states = state.states.filter(id => id !== action.payload);
+    removeCountry: (state, action) => {
+      state.countries = state.countries.filter(country => country !== action.payload);
     },
-  },
+    removeState: (state, action) => {
+      state.states = state.states.filter(stateId => stateId !== action.payload);
+    }
+  }
 });
 
-export const { addCountry, removeCountry, addState, removeState } = visitedSlice.actions;
+export const { addCountry, addState, removeCountry, removeState } = visitedSlice.actions;
 export default visitedSlice.reducer;

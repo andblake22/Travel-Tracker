@@ -1,29 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCountry } from '../redux/visitedSlice'; // Redux actions
-import { ReactComponent as WorldMapSVG } from '../assets/world.svg'; // Import SVG as React component
-import countryNames from '../models/countries.json'; // Import country names
+import { addCountry, removeCountry } from '../redux/visitedSlice'; // Add removeCountry action
+import { ReactComponent as WorldMapSVG } from '../assets/world.svg';
+import countryNames from '../models/countries.json';
 
 const WorldMap: React.FC = () => {
-  const visitedCountries = useSelector((state: any) => state.visited.countries); // Redux state for visited countries
+  const visitedCountries = useSelector((state: any) => state.visited.countries);
   const dispatch = useDispatch();
-  const svgRef = useRef<SVGSVGElement>(null); // Reference to the SVG
-  const [editMode, setEditMode] = useState(false); // Edit mode state
-  const [selectedCountry, setSelectedCountry] = useState<string>(''); // Dropdown selected country
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
 
-  // Toggle edit mode
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
-  // Add the selected country to the visited list
   const handleAddCountry = () => {
     if (selectedCountry && !visitedCountries.includes(selectedCountry)) {
       dispatch(addCountry(selectedCountry));
     }
   };
 
-  // Update the fill color based on visited status
+  const handleRemoveCountry = () => {
+    if (selectedCountry && visitedCountries.includes(selectedCountry)) {
+      dispatch(removeCountry(selectedCountry));
+    }
+  };
+
   useEffect(() => {
     const svgElement = svgRef.current;
     if (svgElement) {
@@ -32,9 +35,9 @@ const WorldMap: React.FC = () => {
       paths.forEach((path) => {
         const countryId = path.id;
         if (visitedCountries.includes(countryId)) {
-          path.setAttribute('fill', 'green'); // Visited color
+          path.setAttribute('fill', 'green');
         } else {
-          path.setAttribute('fill', 'gray'); // Not visited color
+          path.setAttribute('fill', 'gray');
         }
       });
     }
@@ -43,13 +46,10 @@ const WorldMap: React.FC = () => {
   return (
     <div>
       <h1>World Map</h1>
-      
-      {/* Toggle edit mode */}
       <button onClick={toggleEditMode}>
         {editMode ? 'Disable Edit Mode' : 'Enable Edit Mode'}
       </button>
 
-      {/* Show dropdown and add functionality only in edit mode */}
       {editMode && (
         <div>
           <select
@@ -64,10 +64,10 @@ const WorldMap: React.FC = () => {
             ))}
           </select>
           <button onClick={handleAddCountry}>Add Visited Country</button>
+          <button onClick={handleRemoveCountry}>Remove Visited Country</button>
         </div>
       )}
 
-      {/* Render the SVG */}
       <div>
         <WorldMapSVG ref={svgRef} />
       </div>
