@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import visitedReducer from './visitedSlice'; // Import the visitedSlice reducer
+import visitedReducer from './visitedSlice';
+import userReducer from './userSlice';
 
 const store = configureStore({
   reducer: {
-    visited: visitedReducer, // Assign the visitedSlice to the visited key in the store
+    visited: visitedReducer,
+    user: userReducer,
   },
+  
 });
 
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 export default store;
