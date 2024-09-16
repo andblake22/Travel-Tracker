@@ -10,10 +10,9 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${localStorage.getItem('token')}`
   },
-  timeout: 5000, // 5 seconds timeout to prevent hanging requests
+  timeout: 5000,
 });
 
-// Function to register a new user
 export const registerUser = async (username: string, password: string, role: string) => {
   const response = await apiClient.post('/users/register', {
     username,
@@ -23,7 +22,7 @@ export const registerUser = async (username: string, password: string, role: str
   return response.data;
 };
 
-// Function to login user
+
 export const loginUser = async (username: string, password: string) => {
   const response = await apiClient.post('/users/login', {
     username,

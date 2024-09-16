@@ -1,4 +1,3 @@
-// src/components/Login.tsx
 import React, { useState } from 'react';
 import { loginUser } from '../services/api';
 import { useDispatch } from 'react-redux';
@@ -14,8 +13,8 @@ const Login: React.FC = () => {
 
     try {
       const data = await loginUser(username, password);
-      localStorage.setItem('token', data.token); // Store JWT token securely
-      dispatch(setUser(data)); // Store user data in Redux
+      localStorage.setItem('token', data.token);
+      dispatch(setUser(data));
       alert('Login successful!');
     } catch (error) {
       alert('Login failed. Please check your credentials.');

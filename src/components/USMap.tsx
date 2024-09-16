@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addState, removeState } from '../redux/visitedSlice'; // Add removeState action
+import { addState, removeState } from '../redux/visitedSlice'; 
 import { ReactComponent as USMapSVG } from '../assets/usa.svg';
 import stateNames from '../models/states.json';
 

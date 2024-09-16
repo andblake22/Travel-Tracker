@@ -1,4 +1,3 @@
-// src/components/Register.tsx
 import React, { useState } from 'react';
 import { registerUser } from '../services/api';
 import { checkPassword } from '../services/checkPassword';

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCountry, removeCountry } from '../redux/visitedSlice'; // Add removeCountry action
+import { addCountry, removeCountry } from '../redux/visitedSlice';
 import { ReactComponent as WorldMapSVG } from '../assets/world.svg';
 import countryNames from '../models/countries.json';
 
